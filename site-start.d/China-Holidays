@@ -1,0 +1,82 @@
+%%(and (diary-block 5 4 2013 5 4 2013)) Youth Day
+%%(and (diary-block 5 4 2014 5 4 2014)) Youth Day
+%%(and (diary-block 5 4 2012 5 4 2012)) Youth Day
+%%(and (diary-block 12 28 2014 12 28 2014)) Winter Solstice Festival
+%%(and (diary-block 12 9 2013 12 9 2013)) Winter Solstice Festival
+%%(and (diary-block 2 14 2013 2 14 2013)) Valentine's Day
+%%(and (diary-block 2 14 2012 2 14 2012)) Valentine's Day
+%%(and (diary-block 2 14 2014 2 14 2014)) Valentine's Day
+%%(and (diary-block 9 10 2012 9 10 2012)) Teacher's Day
+%%(and (diary-block 9 10 2014 9 10 2014)) Teacher's Day
+%%(and (diary-block 9 10 2013 9 10 2013)) Teacher's Day
+%%(and (diary-block 6 21 2014 6 21 2014)) Summer Solstice
+%%(and (diary-block 6 21 2012 6 21 2012)) Summer Solstice
+%%(and (diary-block 6 21 2013 6 21 2013)) Summer Solstice
+%%(and (diary-block 8 10 2014 8 10 2014)) Spirit Festival
+%%(and (diary-block 8 21 2013 8 21 2013)) Spirit Festival
+%%(and (diary-block 4 5 2014 4 5 2014)) Qingming Festival
+%%(and (diary-block 4 4 2013 4 4 2013)) Qingming Festival
+%%(and (diary-block 1 1 2013 1 1 2013)) New Year
+%%(and (diary-block 1 1 2012 1 1 2012)) New Year
+%%(and (diary-block 1 1 2014 1 1 2014)) New Year
+%%(and (diary-block 10 1 2013 10 1 2013)) National Day
+%%(and (diary-block 10 7 2013 10 7 2013)) National Day
+%%(and (diary-block 10 5 2014 10 5 2014)) National Day
+%%(and (diary-block 10 4 2013 10 4 2013)) National Day
+%%(and (diary-block 10 3 2014 10 3 2014)) National Day
+%%(and (diary-block 10 6 2013 10 6 2013)) National Day
+%%(and (diary-block 10 6 2014 10 6 2014)) National Day
+%%(and (diary-block 10 3 2013 10 3 2013)) National Day
+%%(and (diary-block 10 1 2014 10 1 2014)) National Day
+%%(and (diary-block 10 2 2013 10 2 2013)) National Day
+%%(and (diary-block 10 4 2014 10 4 2014)) National Day
+%%(and (diary-block 10 5 2013 10 5 2013)) National Day
+%%(and (diary-block 10 7 2014 10 7 2014)) National Day
+%%(and (diary-block 10 2 2014 10 2 2014)) National Day
+%%(and (diary-block 5 11 2014 5 11 2014)) Mother's Day
+%%(and (diary-block 5 12 2013 5 12 2013)) Mother's Day
+%%(and (diary-block 5 13 2012 5 13 2012)) Mother's Day
+%%(and (diary-block 9 19 2013 9 19 2013)) Mid-Autumn Festival
+%%(and (diary-block 9 8 2014 9 8 2014)) Mid-Autumn Festival
+%%(and (diary-block 12 20 2013 12 20 2013)) Macau Special Administrative Region Establishment Day
+%%(and (diary-block 12 20 2014 12 20 2014)) Macau Special Administrative Region Establishment Day
+%%(and (diary-block 12 20 2012 12 20 2012)) Macau Special Administrative Region Establishment Day
+%%(and (diary-block 2 14 2014 2 14 2014)) Lantern Festival
+%%(and (diary-block 5 1 2012 5 1 2012)) International Worker's Day
+%%(and (diary-block 5 1 2014 5 1 2014)) International Worker's Day
+%%(and (diary-block 5 1 2013 5 1 2013)) International Worker's Day
+%%(and (diary-block 3 8 2012 3 8 2012)) International Women's Day
+%%(and (diary-block 3 8 2014 3 8 2014)) International Women's Day
+%%(and (diary-block 3 8 2013 3 8 2013)) International Women's Day
+%%(and (diary-block 6 1 2012 6 1 2012)) International Children's Day
+%%(and (diary-block 6 1 2014 6 1 2014)) International Children's Day
+%%(and (diary-block 6 1 2013 6 1 2013)) International Children's Day
+%%(and (diary-block 7 1 2014 7 1 2014)) Hong Kong Special Administrative Region Establishment Day
+%%(and (diary-block 7 1 2012 7 1 2012)) Hong Kong Special Administrative Region Establishment Day
+%%(and (diary-block 7 1 2013 7 1 2013)) Hong Kong Special Administrative Region Establishment Day
+%%(and (diary-block 6 15 2014 6 15 2014)) Father's Day
+%%(and (diary-block 6 17 2012 6 17 2012)) Father's Day
+%%(and (diary-block 6 16 2013 6 16 2013)) Father's Day
+%%(and (diary-block 6 12 2013 6 12 2013)) Dragon Boat Festival
+%%(and (diary-block 6 2 2014 6 2 2014)) Dragon Boat Festival
+%%(and (diary-block 8 2 2014 8 2 2014)) Double Seven Festival
+%%(and (diary-block 8 13 2013 8 13 2013)) Double Seven Festival
+%%(and (diary-block 10 13 2013 10 13 2013)) Double Ninth Festival
+%%(and (diary-block 10 2 2014 10 2 2014)) Double Ninth Festival
+%%(and (diary-block 7 1 2012 7 1 2012)) CPC Founding Day
+%%(and (diary-block 7 1 2013 7 1 2013)) CPC Founding Day
+%%(and (diary-block 7 1 2014 7 1 2014)) CPC Founding Day
+%%(and (diary-block 12 25 2014 12 25 2014)) Christmas
+%%(and (diary-block 12 25 2013 12 25 2013)) Christmas
+%%(and (diary-block 12 25 2012 12 25 2012)) Christmas
+%%(and (diary-block 1 30 2014 1 30 2014)) Chinese New Year's Eve
+%%(and (diary-block 1 31 2014 1 31 2014)) Chinese New Year
+%%(and (diary-block 8 1 2014 8 1 2014)) Army Day
+%%(and (diary-block 8 1 2013 8 1 2013)) Army Day
+%%(and (diary-block 8 1 2012 8 1 2012)) Army Day
+%%(and (diary-block 3 12 2012 3 12 2012)) Arbor Day
+%%(and (diary-block 3 12 2014 3 12 2014)) Arbor Day
+%%(and (diary-block 3 12 2013 3 12 2013)) Arbor Day
+%%(and (diary-block 4 1 2013 4 1 2013)) April Fool's Day
+%%(and (diary-block 4 1 2012 4 1 2012)) April Fool's Day
+%%(and (diary-block 4 1 2014 4 1 2014)) April Fool's Day
