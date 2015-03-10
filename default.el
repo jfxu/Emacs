@@ -1,12 +1,103 @@
-;;; Set the home directory
-;;; (setenv "HOME" "D:/Program Files/GNU Emacs 24.3/site-lisp/.emacs.d")
-;;; (setenv "PATH" "D:/Program Files/GNU Emacs 24.3/site-lisp/.emacs.d")
-;; ;;set the default file path
-;; (setq default-directory "~/")
+;;; default.el --- Default configuration for GNU Emacs
+;;; Used mainly to load custom extensions.
+;;; (Loaded *after* any user and site configuration files)
 
-;;; Nice options to have On by default
+;; Copyright (C) 2014 Vincent Goulet
+
+;; Author: Vincent Goulet
+
+;; This file is part of Emacs for Windows Modified
+;; http://vgoulet.act.ulaval.ca/emacs
+
+;; GNU Emacs for Windows Modified is free software; you can
+;; redistribute it and/or modify it under the terms of the GNU General
+;; Public License as published by the Free Software Foundation; either
+;; version 3, or (at your option) any later version.
+
+;; GNU Emacs is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
+
+;;;
+;;; Version number of Emacs Modified
+;;;
+;; Define variable and function 'emacs-modified-version'
+(require 'version-modified)
+
+;;;
+;;; Easier printing
+;;;
+(require 'w32-winprint)
+(require 'htmlize-view)
+(htmlize-view-add-to-files-menu)
+
+;;;
+;;; ESS
+;;;
+;; Load ESS and activate the nifty feature showing function arguments
+;; in the minibuffer until the call is closed with ')'.
+(require 'ess-site)
+
+;;;
+;;; AUCTeX
+;;;
+;; Load AUCTeX and preview-latex.
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
+(require 'tex-mik)
+
+(custom-set-variables '(markdown-command "Pandoc"))
+;;;;;;;;;;;;   
+;;; polymode
+;;;
+;; Activation of the R specific bundle and basic configuration.
+(add-to-list 'auto-mode-alist '("\\.Snw" . poly-noweb+r-mode))
+(add-to-list 'auto-mode-alist '("\\.Rnw" . poly-noweb+r-mode))
+(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+(add-to-list 'auto-mode-alist '("\\.rapport" . poly-rapport-mode))
+(add-to-list 'auto-mode-alist '("\\.Rhtml" . poly-html+r-mode))
+(add-to-list 'auto-mode-alist '("\\.Rbrew" . poly-brew+r-mode))
+(add-to-list 'auto-mode-alist '("\\.Rcpp" . poly-r+c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cppR" . poly-c++r-mode))
+(require 'poly-R)
+
+;;;
+;;; SVN
+;;;
+;; Support for the Subversion version control system
+;; (http://http://subversion.tigris.org/) in the VC backend. Use 'M-x
+;; svn-status RET' on a directory under version control to update,
+;; commit changes, revert files, etc., all within Emacs. Requires an
+;; installation of Subversion in the path.
+(add-to-list 'vc-handled-backends 'SVN)
+(require 'psvn)
+
+;;;
+;;; Use Aspell for spell checking
+;;;
+(setq-default ispell-program-name "C:/Program Files (x86)/GNU Emacs 24.4/aspell/bin/aspell.exe")
+
+;;;
+;;; Other extensions
+;;;
+;; Emacs will load all ".el" files in 
+;;   C:/Program Files (x86)/GNU Emacs 24.4/share/emacs/site-lisp/site-start.d/
+;; on startup.
+(mapc 'load
+      (directory-files "C:/Program Files (x86)/GNU Emacs 24.4/share/emacs/site-lisp/site-start.d" t "\\.el\\'"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; Personal Settings ;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (global-font-lock-mode t)	; syntax highlighting
-(global-linum-mode 1)
+(global-linum-mode 1)           ; Show line numbers
 ;; (transient-mark-mode t)	; sane select (mark) mode
 (delete-selection-mode t)	; entry deletes marked text
 (show-paren-mode t)		; match parentheses
@@ -22,172 +113,82 @@
 (setq default-buffer-file-coding-system 'utf-8-unix)
 (setq system-time-locale "C")
 
-;; Emacs package management
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;;;;; Emacs package management
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+;;;;; ESS settings
+(setq-default ess-dialect "R")
+(defun ess-set-language ()
+  (setq-default ess-language "R")
+  (setq ess-language "R")
   )
+;;; Make ESS work right with ggplot2
+(add-hook 'ess-mode-hook
+          (lambda ()
+            (setq ess-first-continued-statement-offset 4)
+            (setq ess-continued-statement-offset 0)))
+  
+  ;;; Define the sas start location
+(setq-default ess-sas-submit-command "D:/SAS92/SASFoundation/9.2/sas.exe -config 'D:/SAS92/SASFoundation/9.2/NLS/EN/SASV9.CFG'")
 
-;;; for thesaurus
-(require 'thesaurus)
-(setq thesaurus-bhl-api-key "aa8038cf0253f7eb703c14d0d657e805")
-(define-key global-map (kbd "C-x t") 'thesaurus-choose-synonym-and-replace)
+;;;;;;;; For auto-complete  ;;;;;;;
+;;(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-20150201.150")
+(require 'auto-complete)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20150201.150/dict")
+(require 'auto-complete-config)
+(ac-config-default)
+(setq ess-use-auto-complete 'script-only)
 
-;;;
-;;; Easier printing
-;;;
-(require 'w32-winprint)
-(require 'htmlize-view)
-(htmlize-view-add-to-files-menu)
+(define-globalized-minor-mode real-global-auto-complete-mode
+  auto-complete-mode (lambda ()
+                       (if (not (minibufferp (current-buffer)))
+                         (auto-complete-mode 1))
+                       ))
+(real-global-auto-complete-mode t)
+;; (global-auto-complete-mode t)
+
 
 ;;;; Showing agenda view at start-up
 (add-hook 'after-init-hook '(lambda () (org-agenda-list 1)))
+
 ;; show file size (emacs 22+)
 (when (fboundp size-indication-mode)
   (size-indication-mode t))
-
+  
 ;;; show the full path of the current file
 (setq frame-title-format
       '("%S" (buffer-file-name "%f"
 			       (dired-directory dired-directory "%b"))))
 
 ;; Setup bookmarks file
-(setq bookmark-default-file "D:/Program Files/GNU Emacs 24.3/site-lisp/.emacs.d/bookmarks" bookmark-save-flag 1)
-(add-to-list 'load-path "d:/Program Files/GNU Emacs 24.3/site-lisp/auto-complete/")
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "d:/Program Files/GNU Emacs 24.3/site-lisp/auto-complete//ac-dict")
-(ac-config-default)
+(setq bookmark-default-file "~/.emacs.d/bookmarks" bookmark-save-flag 1)
 
 
-
-(global-auto-complete-mode t)
-;; ac-math
-(require 'ac-math)
-(add-to-list 'ac-modes 'latex-mode)   ; make auto-complete aware of `latex-mode`
-(defun ac-latex-mode-setup ()         ; add ac-sources to default ac-sources
-  (setq ac-sources
-     (append '(ac-source-math-unicode ac-source-math-latex ac-source-latex-commands ac-source-yasnippet)
-               ac-sources)))
-
-(add-hook 'latex-mode-hook 'ac-latex-mode-setup)
-
-(ac-flyspell-workaround)
-
-(setq ac-math-unicode-in-math-p t)
-(defun ac-latex-mode-setup ()
-  (setq ac-sources
-     (append '(ac-source-math-unicode ac-source-latex-commands)
-               ac-sources)))
-
-
-;;;
-;;; ESS
-;;;
-;; Load ESS and activate the nifty feature showing function arguments
-;; in the minibuffer until the call is closed with ')'.
-(require 'ess-site)
-(require 'ess-eldoc)
-
-(setq-default inferior-R-args "--no-save ")
-(setq-default inferior-R-program-name
-              "C:/Program Files/R/R-3.0.1/bin/x64/rterm.exe")
-
-(setq-default ess-dialect "R")
-(defun ess-set-language ()
-  (setq-default ess-language "R")
-  (setq ess-language "R")
-  )
-  
-  ;;; Define the sas start location
-(setq-default ess-sas-submit-command "D:/SAS92/SASFoundation/9.2/sas.exe -config 'D:/SAS92/SASFoundation/9.2/NLS/EN/SASV9.CFG'")
-
-
-
-;;;
-;;; AUCTeX
-;;;
-(load "auctex.el" nil t t)
-(load "preview-latex.el" nil t t)
-(require 'tex-mik)
-(require 'font-latex)
-
-
-;;;
-;;; SVN
-;;;
-(add-to-list 'vc-handled-backends 'SVN)
-(require 'psvn)
-
-
-;;;
-;;; Use Aspell for spell checking
-;;;
-(setq-default ispell-program-name "D:/Program Files/GNU Emacs 24.3/aspell/bin/aspell.exe")
-;; (setq ispell-dictionary "british")
-
-;;;
-;; Emacs will load all ".el" files in "
-
-(mapc 'load
-     (directory-files "D:/Program Files/GNU Emacs 24.3/site-lisp/site-start.d" t "\\.el\\'"))
-;;; mouse scrolling setting
-(defun up-slightly () (interactive) (scroll-up 3))
-(defun down-slightly () (interactive) (scroll-down 3))
-(global-set-key [mouse-4] 'down-slightly)
-(global-set-key [mouse-5] 'up-slightly)
-(setq column-number-mode t)                   ;; show column numbers
-;; (size-indication-mode t)                 ;; show file size (emacs 22+)
-(require 'ido)
-
-(ido-mode 'both) ;; for buffers and files
-(setq
-  ido-save-directory-list-file "D:/Program Files/GNU Emacs 24.3/site-lisp/.emacs.d/.ido.last"
-  ido-ignore-buffers ;; ignore these guys
-  '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-     "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
-  ido-work-directory-list '("~/" "~/Desktop" "~/Documents" "~src")
-  ido-case-fold  t                 ; be case-insensitive
-  ido-enable-last-directory-history t ; remember last used dirs
-  ido-max-work-directory-list 30   ; should be enough
-  ido-max-work-file-list      50   ; remember many
-  ido-use-filename-at-point nil    ; don't use filename at point (annoying)
-  ido-use-url-at-point nil         ; don't use url at point (annoying)
-  ido-enable-flex-matching nil     ; don't try to be too smart
-  ido-max-prospects 8              ; don't spam my minibuffer
-  ido-confirm-unique-completion t  ; wait for RET, even with unique completion
-)
 (setq visible-bell t)
-(require 'server)
-
+;;; (require 'server)
 
 ;; use Y or N for Yes and No
 (fset 'yes-or-no-p 'y-or-n-p)
+
 ;;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (autoload 'ibuffer "ibuffer" "List buffers." t)
-;; (require 'color-theme)
+
+(require 'color-theme)
 (load-theme 'misterioso)
-;;; another color theme
-;; (require 'tmtheme)
-;; (setq tmtheme-directory "D:/Program Files/GNU Emacs 24.2/site-lisp/site-start.d/tmthemes")
-;; (tmtheme-scan)
-;; spell check
-(add-hook 'text-mode-hook 'flyspell-mode)
+
 ;;;; Maximize the frame at startup
 (require 'maxframe)
 (add-hook 'window-setup-hook 'maximize-frame t)
-;; (set-frame-size-according-to-resolution)
-;;; CDlatex
-(autoload 'cdlatex-mode "cdlatex" "CDLaTeX Mode" t)
-(autoload 'turn-on-cdlatex "cdlatex" "CDLaTeX Mode" nil)
-(add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)  ; with AUCTeX Latex
 
 (require 'session)
 (add-hook 'after-init-hook 'session-initialize)
 (setq desktop-globals-to-save '(desktop-missing-file-warning))
-(setq session-save-file "D:/Program Files/GNU Emacs 24.3/site-lisp/.emacs.d/.session")
-;; (load "desktop")
+(setq session-save-file "~/.emacs.d/.session")
+
 (require 'desktop)
 (desktop-save-mode 1)
 (setq history-length 150)
@@ -204,26 +205,6 @@
                 "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
 	        "\\)$"))
 
-(add-to-list 'desktop-modes-not-to-save 'dired-mode)
-(add-to-list 'desktop-modes-not-to-save 'Info-mode)
-(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-
-;; ;;;; use only one desktop
-(setq desktop-path '("D:/Program Files/GNU Emacs 24.3/site-lisp/.emacs.d/"))
-(setq desktop-dirname "D:/Program Files/GNU Emacs 24.3/site-lisp/.emacs.d/")
-(setq desktop-base-file-name ".emacs-desktop")
-
-(defun saved-session ()
-  (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
-
-(if (file-exists-p ".emacs.desktop")
-   (progn (setq desktop-path '("."))
-	   (desktop-save-mode 1)
-	   )
- )
-
-(setq auto-save-list-file-prefix "D:/Program Files/GNU Emacs 24.3/site-lisp/.emacs.d/auto-save-list/.saves-")
 
 ;;; Set cursor color to white
 (set-cursor-color "#e6e6fa")
@@ -234,9 +215,92 @@
 ;; (set-face-attribute 'default nil :height 170)
 ;; (set-face-attribute 'default nil :font "Monaco-14")
 (set-default-font "Inconsolata-16")
+;; (set-frame-font "Inconsolata-14")
+;; (set-frame-font "DejaVu Sans Mono-12")
+;; (set-default-font "DejaVu Sans Book-14")
 
 ;;; Chinese Font
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
     (set-fontset-font (frame-parameter nil 'font)
                       charset
                       (font-spec :family "Microsoft Yahei" :size 18)))
+                      
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; ORG settings
+
+(global-set-key (kbd "C-c i") 'org-time-stamp-inactive)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cl" 'org-store-link)
+
+;; ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
+(setq org-capture-templates
+      (quote (("t" "todo" entry (file "D:/Dropbox/org/notes.org")
+               "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("r" "Reply" entry (file "D:/Dropbox/org/notes.org")
+               "* TODO Respond to %:from on %:subject\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+              ("n" "Note of research" entry (file "D:/Dropbox/org/newidea.org")
+               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("j" "Journal" entry (file+datetree "D:/Dropbox/org/notes.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("w" "org-protocol" entry (file "D:/Dropbox/org/notes.org")
+               "* TODO Review %c\n%U\n" :immediate-finish t)
+              ("p" "Appointment" entry (file "D:/Dropbox/org/appointments.org" "Calendar")
+	       "* APPT %^{Description} %^g %? Added: %U")
+               ;; "* TODO %? :Appointment:\n%U" :clock-in t :clock-resume t)
+              ("h" "Habit" entry (file "D:/Dropbox/org/notes.org")
+               "* NEXT %?\n%U\n%a\nSCHEDULED: %t .+1d/3d\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+
+(custom-set-variables
+;;'(org-agenda-files (quote ("D:/Dropbox/Org/jobs.org"
+;;                           "D:/Dropbox/Org/Personal.org"
+;;			     "D:/Dropbox/Org/Diary/Birthday.org"
+;;                           "D:/Dropbox/Org/Research.org")))
+ '(org-agenda-files (quote ("D:/Dropbox/Org/Personal.org"
+			    "D:/Dropbox/Org/Diary/Birthday.org")))
+ '(org-agenda-ndays 7)
+ '(org-deadline-warning-days 14)
+ '(org-agenda-show-all-dates t)
+ ;; '(org-startup-folded nil)
+ ;; '(org-log-done t)
+ '(org-todo-keywords '((sequence "TODO(t)"  "STARTED(s)" "APPOINTMENT(a)" "WAITING(w)"
+                                 "|" "DONE(d)" "CANCELED(c)")))
+ '(org-agenda-use-time-grid t)
+ '(org-hide-leading-stars t)
+ '(org-agenda-include-diary t)
+ '(org-agenda-show-current-time-in-grid t)
+ '(org-upcoming-deadline '(:foreground "blue" :weight bold))
+ '(org-todo-keyword-faces
+      (quote (("TODO" :foreground "red" :weight bold)
+              ("STARTED" :foreground "dark magenta" :weight bold)
+	      ("APPOINTMENT" :foreground "purple" :weight bold)
+              ("WAITING" :foreground "DeepPink3" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ("CANCELED" :foreground "forest green" :weight bold)
+	      )))
+ '(org-use-fast-todo-selection t)
+ ;; '(org-agenda-skip-scheduled-if-done t)
+ ;; '(org-agenda-skip-deadline-if-done t)
+ ;; '(org-agenda-include-all-todo t)
+ ;; '(org-use-property-inheritance t)
+ ;; '(org-enforce-todo-dependencies t)
+ ;; '(org-special-ctrl-a/e t)
+ ;; '(org-special-ctrl-k t)
+ ;; '(org-blank-before-new-entry (quote ((heading . auto) (plain-list-item))))
+ ;; '(org-agenda-dim-blocked-tasks 'invisible)
+ ;; '(org-enforce-todo-checkbox-dependencies t)
+ ;; '(org-completion-use-iswitchb t)
+ ;; '(org-export-allow-BIND t)
+ '(diary-file "D:/Dropbox/Org/Diary/China-Holidays"
+              "D:/Dropbox/Org/Diary/Canada-Holidays")
+ '(mark-diary-entries-in-calendar t)
+ '(org-export-html-postamble t)
+ '(org-export-html-postamble-format (quote (("en" "<hr><p><span class=\"author\">Last Updated by %a </span> <span class=\"date\">on %d </span></p>"))))
+ ;; '(org-directory "D:/Dropbox/Org")
+;;  '(org-agenda-files (directory-files org-directory t ".*\.org$"))
+ )
+ 
+;;; ;;Add the Chinese Holidays and Canadian Holidays
+;; (icalendar-import-file "D:/Dropbox/Org/Diary/CHN.ics"
+;; 			"D:/Dropbox/Org/Diary/China-Holidays")
+;; (icalendar-import-file "D:/Dropbox/Org/Diary/CAN-Ontario.ics"
+;;			"D:/Dropbox/Org/Diary/Canada-Holidays")
